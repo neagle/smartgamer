@@ -1,9 +1,6 @@
-smartgamer
-==========
+# smartgamer [![Build Status](https://api.travis-ci.org/neagle/smartgamer.svg?branch=master)](https://travis-ci.org/neagle/smartgamer)
 
-Interact with smartgame objects created from SGF (Smart Game Format) files.
-
-So you've used [smartgame](https://www.npmjs.com/package/smartgame) to turn your SGF file into a friendly JavaScript object, have you? Now you need a smartgamer to let you navigate and manipulate that smartgame.
+So you've used [smartgame](https://www.npmjs.com/package/smartgame) to turn your [SGF](http://www.red-bean.com/sgf/index.html) file into a friendly JavaScript object, have you? Now you need a smartgamer to let you navigate and manipulate that smartgame.
 
 Installation
 ============
