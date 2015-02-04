@@ -166,7 +166,7 @@ module.exports = function (smartgame) {
 		 **/
 		goTo: function (path) {
 			if (typeof path === 'string') {
-				path = this.path(path, 'object');
+				path = this.pathTransform(path, 'object');
 			} else if (typeof path === 'number') {
 				path = { m: path };
 			}
@@ -219,7 +219,7 @@ module.exports = function (smartgame) {
 		/**
 		 * Convert path objects to strings and path strings to objects
 		 **/
-		path: function (input, outputType, verbose) {
+		pathTransform: function (input, outputType, verbose) {
 			var output;
 
 			// If no output type has been specified, try to set it to the
