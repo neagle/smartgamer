@@ -2,21 +2,105 @@
 'use strict';
 var assert = require('assert');
 
+var fs = require('fs');
+var smartgamer = require('..');
+var sgf = require('smartgame');
+var simpleExample = fs.readFileSync('./example/sgf/simple_example.sgf', { encoding: 'utf8' });
+var example = fs.readFileSync('./example/sgf/example.sgf', { encoding: 'utf8' });
+
+describe('totalMoves()', function () {
+	it('returns the total number of moves', function () {
+		var gamer = smartgamer(sgf.parse(example));
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
+
+		assert(gamer.totalMoves() === 13);
+		assert(simpleGamer.totalMoves() === 4);
+	});
+});
+
+describe('goto()', function () {
+	it('can to to a move given as a number', function () {
+		var gamer = smartgamer(sgf.parse(example));
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
+
+		var node1 = gamer.goTo(3).node();
+		var node2 = simpleGamer.goTo(3).node();
+
+		assert.deepEqual(node1, {
+			B: 'pp',
+			GB: '2',
+			C: 'Marked as "Very good for Black"'
+		});
+		assert.deepEqual(node2, { B: 'pp' });
+	});
+});
+
+describe('next()', function () {
+	it('can go to the next move', function () {
+		var gamer = smartgamer(sgf.parse(example));
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
+
+		var node1 = gamer.next().node();
+		var node2 = simpleGamer.next().node();
+
+		assert.deepEqual(node1, {
+			B: 'pd',
+			N: 'Moves, comments, annotations',
+			C: 'Nodename set to: "Moves, comments, annotations"' }
+		);
+		assert.deepEqual(node2, {
+			B: 'pd'
+		});
+	});
+});
+
+describe('previous()', function () {
+	it('can go to the next move', function () {
+		var gamer = smartgamer(sgf.parse(example));
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
+
+		var node1 = gamer.last().previous().node();
+		var node2 = simpleGamer.last().previous().node();
+
+		assert.deepEqual(node1, { C: 'White "Pass" move', W: '' });
+		assert.deepEqual(node2, { B: 'pp' });
+	});
+});
+
 describe('last()', function () {
 	it('can go to the end of a game', function () {
-		var fs = require('fs');
-		var smartgamer = require('..');
-		var sgf = require('smartgame');
-		var simpleExample = fs.readFileSync('./example/sgf/simple_example.sgf', { encoding: 'utf8' });
-		var example = fs.readFileSync('./example/sgf/example.sgf', { encoding: 'utf8' });
+		var gamer = smartgamer(sgf.parse(example));
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
 
-		var gamer1 = smartgamer(sgf.parse(simpleExample));
-		var gamer2 = smartgamer(sgf.parse(example));
+		var node1 = gamer.last().node();
+		var node2 = simpleGamer.last().node();
 
-		var node1 = gamer1.last();
-		var node2 = gamer2.last();
+		assert.deepEqual(node1, { C: 'Black "Pass" move', B: 'tt' });
+		assert.deepEqual(node2, { W: 'dd' });
+	});
+});
 
-		assert.deepEqual(node1, { W: 'dd' });
-		assert.deepEqual(node2, { C: 'Black "Pass" move', B: 'tt' });
+describe('first()', function () {
+	it('can go to the first move', function () {
+		var gamer = smartgamer(sgf.parse(example));
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
+
+		var node1 = gamer.last().first().node();
+		var node2 = simpleGamer.last().first().node();
+
+		assert.deepEqual(node1, {
+			FF: '4',
+			AP: 'Primiview:3.1',
+			GM: '1',
+			SZ: '19',
+			GN: 'Gametree 1: properties',
+			US: 'Arno Hollosi'
+		});
+		assert.deepEqual(node2, {
+			GM: '1',
+			FF: '4',
+			CA: 'UTF-8',
+			SZ: '19'
+		});
 	});
 });

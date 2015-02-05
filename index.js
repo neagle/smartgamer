@@ -38,12 +38,16 @@ module.exports = function (smartgame) {
 			} else {
 				throw new Error('the collection doesn\'t contain that many games');
 			}
+
+			return this;
 		},
 
 		reset: function () {
 			sequence = this.game;
 			node = sequence.nodes[0];
 			this.path = { m: 0 };
+
+			return this;
 		},
 
 		getSmartgame: function () {
@@ -94,16 +98,14 @@ module.exports = function (smartgame) {
 					this.path.m += 1;
 				} else {
 					// End of sequence / game
-					return;
+					return this;
 				}
 			} else {
 				node = localNodes[localIndex + 1];
 				this.path.m += 1;
 			}
 
-			if (node) {
-				return node;
-			}
+			return this;
 		},
 
 		/**
@@ -129,33 +131,31 @@ module.exports = function (smartgame) {
 					}
 				} else {
 					// Already at the beginning
-					return;
+					return this;
 				}
 			} else {
 				node = localNodes[localIndex - 1];
 				this.path.m -= 1;
 			}
 
-			if (node) {
-				return node;
-			}
+			return this;
 		},
 
 		// Go to the last move of the game
 		last: function () {
-			var n = node;
+			var totalMoves = this.totalMoves();
 
-			while(n) {
-				n = this.next();
+			while(this.path.m < totalMoves) {
+				this.next();
 			}
 
-			return node;
+			return this;
 		},
 
 		// Go to the first move of the game
 		first: function () {
 			this.reset();
-			return node;
+			return this;
 		},
 
 		/**
@@ -180,7 +180,7 @@ module.exports = function (smartgame) {
 				n = this.next(variation);
 			}
 
-			return node;
+			return this;
 		},
 
 		getGameInfo: function () {
@@ -190,6 +190,28 @@ module.exports = function (smartgame) {
 		// Provide the current node
 		node: function () {
 			return node;
+		},
+
+		// Get the total number of moves in a game
+		totalMoves: function () {
+			var localSequence = this.game;
+			var moves = 0;
+			while(localSequence) {
+				moves += localSequence.nodes.length;
+
+				if (localSequence.sequences) {
+					localSequence = localSequence.sequences[0];
+				} else {
+					localSequence = null;
+				}
+			}
+
+			// TODO: Right now we're *assuming* that the root node doesn't have a
+			// move in it, which is *recommended* but not required practice.
+			// @see http://www.red-bean.com/sgf/sgf4.html
+			// "Note: it's bad style to have move properties in root nodes.
+			// (it isn't forbidden though)"
+			return moves - 1;
 		},
 
 		// Get or set a comment on the current node

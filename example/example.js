@@ -1,3 +1,7 @@
+var repl = require('repl').start({
+	useGlobal: true
+});
+
 var sgf = require('smartgame');
 var smartgamer = require('..');
 var fs = require('fs');
@@ -13,9 +17,10 @@ var example = fs.readFileSync('sgf/example.sgf', { encoding: 'utf8' });
 //var parsedSimpleExample = sgf.parse(simpleExample);
 //var parsedExample = sgf.parse(example);
 
-//var game = smartgamer(sgf.parse(simpleExample));
-var game = smartgamer(sgf.parse(example));
+var simpleGamer = smartgamer(sgf.parse(simpleExample));
+var gamer = smartgamer(sgf.parse(example));
 
-console.log('A simple example:', util.inspect(game, false, null));
+//console.log('A simple example:', util.inspect(simpleGamer, false, null));
 
-module.exports = game;
+repl.context.gamer = gamer;
+repl.context.simpleGamer = simpleGamer;
