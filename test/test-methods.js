@@ -104,3 +104,26 @@ describe('first()', function () {
 		});
 	});
 });
+
+describe('pathTransform()', function () {
+	it('can transform path strings to objects', function () {
+		var gamer = smartgamer();
+
+		// Simple move strings can be turned into objects
+		assert.deepEqual(gamer.pathTransform('35'), {
+			m: 35
+		});
+
+		// Simple objects can be turned into move strings
+		assert(gamer.pathTransform({ m: 35 }) === '35');
+
+		// Strings with variations can be turned into objects
+		assert.deepEqual(gamer.pathTransform('35-10:1'), {
+			m: 35,
+			10: 1
+		});
+
+		// Objects with variations can be turned into move strings
+		assert(gamer.pathTransform({ m: 35, 10: 1 }) === '35-10:1');
+	});
+});

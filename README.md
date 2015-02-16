@@ -36,6 +36,11 @@ Usage
 	gamer.next();
 	gamer.previous();
 
+	// Chain navigation together
+	gamer.next().next();
+	gamer.last().previous();
+	gamer.goTo(4).next(1);
+
 	// Get / set comments
 	gamer.comment();
 	gamer.comment('Losing move!');

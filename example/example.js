@@ -19,8 +19,13 @@ var example = fs.readFileSync('sgf/example.sgf', { encoding: 'utf8' });
 
 var simpleGamer = smartgamer(sgf.parse(simpleExample));
 var gamer = smartgamer(sgf.parse(example));
+var nogamer = smartgamer();
 
 //console.log('A simple example:', util.inspect(simpleGamer, false, null));
 
+repl.context.sgf = sgf;
+repl.context.simpleExample = simpleExample;
+repl.context.example = example;
 repl.context.gamer = gamer;
 repl.context.simpleGamer = simpleGamer;
+repl.context.nogamer = nogamer;

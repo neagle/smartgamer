@@ -8,10 +8,6 @@
 module.exports = function (smartgame) {
 	'use strict';
 
-	if (typeof smartgame !== 'object') {
-		throw new Error('the smartgame navigator needs a smartgame to navigate');
-	}
-
 	var sequence;
 	var node;
 
@@ -21,8 +17,17 @@ module.exports = function (smartgame) {
 
 	Smartgamer.prototype = {
 		init: function () {
-			this.game = smartgame.gameTrees[0];
-			this.reset();
+			if (smartgame) {
+				this.game = smartgame.gameTrees[0];
+				this.reset();
+			}
+		},
+
+		// Load a smartgame to make it possible to load new games or add one after
+		// initialization, if desired
+		load: function (newSmartgame) {
+			smartgame = newSmartgame;
+			this.init();
 		},
 
 		// Having multiple games in a collection is not common, but it's part of
