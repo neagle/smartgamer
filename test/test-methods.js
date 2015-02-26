@@ -127,3 +127,40 @@ describe('pathTransform()', function () {
 		assert(gamer.pathTransform({ m: 35, 10: 1 }) === '35-10:1');
 	});
 });
+
+describe('comment()', function () {
+	it('can get comment text', function () {
+		var gamer = smartgamer(sgf.parse(example));
+
+		gamer.next().next();
+
+		assert(gamer.comment() === 'Marked as "Good for White"');
+
+		gamer.comment('foo');
+		assert(gamer.comment() === 'foo');
+	});
+});
+
+describe('comment()', function () {
+	it('can set comment text', function () {
+		var gamer = smartgamer(sgf.parse(example));
+
+		gamer.next().next().comment('foo');
+
+		assert(gamer.comment() === 'foo');
+	});
+});
+
+describe('comment()', function () {
+	it('properly escapes comment text', function () {
+		var gamer = smartgamer(sgf.parse(example));
+
+		var str = 'cloudbrows: I _love_ my [markdown]' +
+			'(http://daringfireball.net/projects/markdown/syntax), yes I do! \\o/';
+		var escapedStr = 'cloudbrows\\: I _love_ my [markdown\\]' +
+			'(http\\://daringfireball.net/projects/markdown/syntax), yes I do! \\\\o/';
+		gamer.next().next().comment(str);
+
+		assert(gamer.node().C === escapedStr);
+	});
+});

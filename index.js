@@ -220,11 +220,18 @@ module.exports = function (smartgame) {
 		},
 
 		// Get or set a comment on the current node
+		// @see http://www.red-bean.com/sgf/sgf4.html#text
 		comment: function (text) {
-			if (!text) {
-				return node.C || '';
+			if (typeof text === 'undefined') {
+				// Unescape characters
+				if (node.C) {
+					return node.C.replace(/\\([\\:\]])/g, '$1');
+				} else {
+					return '';
+				}
 			} else {
-				node.C = text;
+				// Escape characters
+				node.C = text.replace(/[\\:\]]/g, '\\$&');
 			}
 		},
 

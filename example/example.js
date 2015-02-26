@@ -1,3 +1,4 @@
+// Reference SGFs: http://eidogo.com/#uc2URg7G
 var repl = require('repl').start({
 	useGlobal: true
 });
