@@ -33,6 +33,16 @@ describe('goto()', function () {
 		});
 		assert.deepEqual(node2, { B: 'pp' });
 	});
+
+	it('can to to a move given as a path', function () {
+		var simpleGamer = smartgamer(sgf.parse(simpleExample));
+
+		var node1 = simpleGamer.goTo('7-4:1-7:1').node();
+		var node2 = simpleGamer.goTo({ '4': 1, '7': 1, m: 7 }).node();
+
+		assert.deepEqual(node1, { B: 'ci' });
+		assert.deepEqual(node2, { B: 'ci' });
+	});
 });
 
 describe('next()', function () {

@@ -1,6 +1,6 @@
 {
   "name": "smartgamer",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Use smartgame objects created from SGF (Smart Game Format) files.",
   "main": "index.js",
   "directories": {

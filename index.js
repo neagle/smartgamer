@@ -181,7 +181,8 @@ module.exports = function (smartgame) {
 			var n = node;
 
 			for (var i = 0; i < path.m && n; i += 1) {
-				var variation = path[i] || 0;
+				// Check for a variation in the path for the upcoming move
+				var variation = path[i + 1] || 0;
 				n = this.next(variation);
 			}
 
@@ -315,7 +316,7 @@ module.exports = function (smartgame) {
 				if (path.length) {
 					path.forEach(function (variation, i) {
 						variation = variation.split(':');
-						output[Number(variation[0])] = variation[1];
+						output[Number(variation[0])] = parseInt(variation[1], 10);
 					});
 				}
 
