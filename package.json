@@ -1,6 +1,6 @@
 {
-  "name": "smartgamer",
-  "version": "0.1.5",
+  "name": "@deep-stack/smartgamer",
+  "version": "0.1.7",
   "description": "Use smartgame objects created from SGF (Smart Game Format) files.",
   "main": "index.js",
   "directories": {
@@ -9,10 +9,7 @@
   "scripts": {
     "test": "mocha"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/neagle/smartgamer.git"
-  },
+  "repository": "git://github.com/deep-stack/smartgamer.git",
   "keywords": [
     "smartgame",
     "sgf",
@@ -34,5 +31,8 @@
     "mocha": "*",
     "smartgame": "^0.1.2",
     "util": "^0.10.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
