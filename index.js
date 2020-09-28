@@ -182,7 +182,7 @@ module.exports = function (smartgame) {
 
 			for (var i = 0; i < path.m && n; i += 1) {
 				// Check for a variation in the path for the upcoming move
-				var variation = path[i + 1] || 0;
+				var variation = path[i] || 0;
 				n = this.next(variation);
 			}
 
